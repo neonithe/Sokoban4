@@ -7,9 +7,35 @@
 </head>
 <body>
 <h2 style="text-align: center">SOKOBAN</h2>
+<table class="center">
+    <tr>
+        <td style="width: 10%; text-align: center; border: 1px solid darkgray">
+            <table class="center">
+                <tr><td> <button onclick="startGame(1)">Map 1</button> </td></tr>
+                <tr><td> <h3>Moves: <span id="count">0</span></h3> </td></tr>
+            </table>
+        </td>
+        <!-- GAME -->
+        <td style="width: 80%; border: 1px solid darkgray">
+            <table class="center" id="gameMap"></table>
+        </td>
+        <!-- GAME -->
+        <td style="width: 10%; text-align: center; border: 1px solid darkgray">
+            <table class="center">
+                <tr><td> emp </td></tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style="text-align: center"><h2 id="message">Click start or one of the maps to start the game</h2></td>
+        <td style="text-align: center"><h2 id="whatMap"></h2></td>
+    </tr>
+</table>
 
-<table class="center" id="gameMap"></table>
-
+<!-- SCRIPT -->
 <script src="script.js"></script>
+<!-- SCRIPT -->
+
 </body>
 </html>

@@ -1,111 +1,31 @@
 
+var WALL    = "W";
+var FLOOR   = "F";
+var PLAYER  = "P";
+var MONSTER = "M";
+var GOAL    = "G";
+var EMPTY   = "E";
+var PRINT   = "X";
 
-var gameMap = map1();
-var pPosI = 0;
-var pPosJ = 0;
+var PLAYERIMG   = "<img src='img/playerR.png'>";
+var MONSTERIMG  = "<img src='img/monster.png'>";
 
-getPlayer(map1());
-var pPos = {i:pPosI, j:pPosJ};
+var gameMap = mapStart();
+var pPos = {i:0, j:0};
 
+// Timer
 
-function map1() {
+/** Messages to HTML **/
+var count = document.getElementById("count");
 
-    var map = [];
-
-    /**     M = Monster | P = PLayer | W = Wall | F = Floor | G = Goal      **/
-/*
-    map[0]   = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[1]   = ["E", "E", "E", "E", "W", "F", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[2]   = ["E", "E", "E", "E", "W", "M", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[3]   = ["E", "E", "W", "W", "W", "F", "F", "M", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[4]   = ["E", "E", "W", "F", "F", "M", "F", "M", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[5]   = ["W", "W", "W", "F", "W", "F", "W", "W", "F", "W", "E", "E", "W", "W", "W", "W", "W", "W", "E"];
-    map[6]   = ["W", "F", "F", "F", "W", "F", "W", "W", "F", "W", "W", "W", "W", "F", "F", "G", "G", "W", "E"];
-    map[7]   = ["W", "F", "M", "F", "F", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "G", "G", "W", "E"];
-    map[8]   = ["W", "W", "W", "W", "W", "F", "W", "W", "W", "F", "W", "P", "W", "F", "F", "G", "G", "W", "E"];
-    map[9]   = ["E", "E", "E", "E", "W", "F", "F", "F", "F", "F", "W", "W", "W", "W", "W", "W", "W", "W", "E"];
-    map[10]  = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E"];
-*/
-    map[0]   = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
-    map[1]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[2]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[3]   = ["W", "F", "F", "F", "F", "F", "F", "W", "W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[4]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[5]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "P", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[6]   = ["W", "F", "F", "F", "F", "F", "F", "F", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[7]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[8]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[9]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[10]  = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
-
-    return map;
-}
-
-/** Create HTML table **/
-function createBoard() {
-    var printBoard = document.getElementById("gameMap");
-    var html = "";
-    var cell = "";
-
-    for (var i = 0; i < gameMap.length; i++) {
-        html = html + "<tr>";
-        for (var j = 0; j < gameMap[0].length; j++ ){
-            cell = gameMap[i][j];
-            html = html + "<td>" + cell + "</td>";
-        }
-        html = html + "</tr>";
-    }
-    printBoard.innerHTML = html;
-}
-
-/** Get position of player **/
-function getPlayer(array) {
-    for (var i = 0; i < array.length; i++ ) {
-        for (var j = 0; j < array[0].length; j++ ) {
-            if ( array[i][j] === "P" ) {
-                pPosI = i; pPosJ = j;
-            }
-        }
-    }
-}
-
-/** Map with the GOALS **/
-function goalMap(array) {
-    var arr = new Array(gameMap.length);
-
-    for (var i=0; i < arr.length; i++) {
-        arr[i] = new Array(gameMap[0].length);
-    }
-    for (var i=0; i < arr.length; i++ ) {
-        for (var j=0; j < arr[0].length; j++ ) {
-            if ( array[i][j] === "G" ) {
-                arr[i][j] = "G";
-            }
-        }
-    }
-    return arr;
-}
-
-/** Check if MONSTER is in goal area **/
-function checkVic(arr) {
-    var test =0;
-    var test2 =0;
-
-    for(var ii =0; ii < arr.length; ii++) {
-       for(var jj =0; jj < arr[0].length; jj++) {
-           if ( gameMap[ii][jj] === "F" && arr[ii][jj] === "G") {
-               gameMap[ii][jj] = "G";
-           }
-           if ( arr[ii][jj] === "G") {
-               test++;
-           }
-           if ( arr[ii][jj] === "G" && gameMap[ii][jj] === "M" ) {
-               test2++;
-           }
-       }
-    }
-    if ( test === test2 ) {
-    console.log("Game");
+/** Game Menu **/
+function startGame(map) {
+    switch ( map ) {
+        case 1:
+            gameMap = convertMap(map1());
+            console.log(gameMap);
+            createBoard();
+        break;
     }
 }
 
@@ -114,28 +34,48 @@ function move(i,j) {
 
     var iD = i - pPos.i;
     var jD = j - pPos.j;
-
     var canMove = true;
 
-    if ( gameMap[i][j] !== "W") {
-        if ( gameMap[i][j] === "M" ) {
-            if ( gameMap[i+iD][j+jD] !== "W" && gameMap[i+iD][j+jD] !== "M"){
-                 gameMap[i+iD][j+jD] = "M";
+    if ( gameMap[i][j].model !== WALL) {
+        canMove = true;
+        if ( gameMap[i][j].status === MONSTER ) {
+            if ( gameMap[i+iD][j+jD].model !== WALL && gameMap[i+iD][j+jD].status === null){
+                 gameMap[i][j].status = null;
+                 gameMap[i+iD][j+jD].status = MONSTER;
                 canMove = true;
             } else {
                 canMove = false;
             }
         }
-        if ( canMove ) {
-            gameMap[pPos.i][pPos.j] = "F";
-            pPos.i = i;
-            pPos.j = j;
-            gameMap[pPos.i][pPos.j] = "P";
-            checkVic(goalMap(map1()));
-            createBoard();
+        if ( canMove )  updateCheckPlayer(i,j);
+    }
+}
 
+function updateCheckPlayer(i,j) {
+    var cell;
+    var inGame = true;
 
+    /** Update movement on player **/
+    gameMap[pPos.i][pPos.j].status = null;
+        pPos.i = i;
+        pPos.j = j;
+    gameMap[pPos.i][pPos.j].status = PLAYER;
+
+    /** Update move counter **/
+    count.innerHTML++;
+
+    /** Update map **/
+    createBoard();
+
+    /** Check for victory **/
+    for(var k = 0; k < gameMap.length; k++ ) {
+        for(var l = 0; l < gameMap[0].length; l++ ) {
+            cell = gameMap[k][l];
+            if ( cell.model === GOAL && cell.status !== MONSTER )  inGame = false;
         }
+    }
+    if ( inGame ) {
+        message.innerHTML = "You are a winner";
     }
 }
 
@@ -179,4 +119,139 @@ window.addEventListener("keydown", function(event) {
     }
 }, false);
 
-createBoard();
+
+
+/**  1. Create HTML, 2. Player position, 3. Maps, 4. Convert Map   ***********************************************/
+
+/** 1. Create HTML table **/
+function createBoard() {
+    var printBoard = document.getElementById("gameMap");
+    var html    = "";
+    var cell    = "";
+    var cellCss = "";
+
+    for (var i = 0; i < gameMap.length; i++) {
+        html = html + "<tr>";
+        for (var j = 0; j < gameMap[0].length; j++ ){
+            cell = gameMap[i][j];
+
+            if ( cell.model === WALL ) {
+                cellCss = "wall";
+            } else if ( cell.model === FLOOR ) {
+                cellCss = "floor";
+            } else if ( cell.model === GOAL ) {
+                cellCss = "goal";
+            } else if ( cell.model === EMPTY ) {
+                cellCss = "empty";
+            } else if ( cell.model === PRINT ) {
+                cellCss = "print";
+            }
+
+            html = html + "<td class='cell " + cellCss +  "'>";
+
+            if ( cell.status === PLAYER ) {
+                html = html + PLAYERIMG;
+            } else if ( cell.status === MONSTER ) {
+                html = html + MONSTERIMG;
+            }
+            html = html + "</td>";
+        }
+        html = html + "</tr>";
+    }
+    printBoard.innerHTML = html;
+  return gameMap;
+}
+
+/** 2. Get position of player **/
+function getPlayer(array) {
+    for (var i = 0; i < array.length; i++ ) {
+        for (var j = 0; j < array[0].length; j++ ) {
+            if ( array[i][j] === "P" ) {
+                pPos.i = i; pPos.j = j;
+            }
+        }
+    }
+}
+console.log(gameMap);
+console.log(goalMap(mapStart()));
+
+/** 3. MAPS **/
+function map1() {
+
+    var map = [];
+
+    /**     M = Monster | P = PLayer | W = Wall | F = Floor | G = Goal      **/
+    /*
+        map[0]   = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+        map[1]   = ["E", "E", "E", "E", "W", "F", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+        map[2]   = ["E", "E", "E", "E", "W", "M", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+        map[3]   = ["E", "E", "W", "W", "W", "F", "F", "M", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+        map[4]   = ["E", "E", "W", "F", "F", "M", "F", "M", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+        map[5]   = ["W", "W", "W", "F", "W", "F", "W", "W", "F", "W", "E", "E", "W", "W", "W", "W", "W", "W", "E"];
+        map[6]   = ["W", "F", "F", "F", "W", "F", "W", "W", "F", "W", "W", "W", "W", "F", "F", "G", "G", "W", "E"];
+        map[7]   = ["W", "F", "M", "F", "F", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "G", "G", "W", "E"];
+        map[8]   = ["W", "W", "W", "W", "W", "F", "W", "W", "W", "F", "W", "P", "W", "F", "F", "G", "G", "W", "E"];
+        map[9]   = ["E", "E", "E", "E", "W", "F", "F", "F", "F", "F", "W", "W", "W", "W", "W", "W", "W", "W", "E"];
+        map[10]  = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E"];
+    */
+    map[0]   = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+    map[1]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[2]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[3]   = ["W", "F", "F", "F", "F", "F", "F", "W", "W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[4]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[5]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "P", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[6]   = ["W", "F", "F", "F", "F", "F", "F", "F", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[7]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[8]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[9]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[10]  = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+
+    return map;
+}
+
+function mapStart() {
+    var map = [];
+
+    map[0]   = ["G", "G", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+    map[1]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[2]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[3]   = ["W", "F", "F", "F", "F", "X", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[4]   = ["W", "F", "F", "F", "F", "X", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[5]   = ["W", "F", "F", "F", "F", "X", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[6]   = ["W", "F", "F", "F", "F", "X", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[7]   = ["W", "F", "F", "F", "F", "X", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[8]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[9]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
+    map[10]  = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+
+    return map;
+}
+
+/** 4. Convert Map to object **/
+
+function convertMap(array) {
+
+    for ( i = 0; i < array.length; i++ ) {
+        for ( j = 0; j < array[0].length; j++ ) {
+            if ( array[i][j] === "W" ) {
+                array[i][j] = {model: WALL, status: null};
+            } else if ( array[i][j] === "F" ) {
+                array[i][j] = {model: FLOOR, status: null};
+            } else if ( array[i][j] === "E" ) {
+                array[i][j] = {model: EMPTY, status: null};
+            } else if ( array[i][j] === "G" ) {
+                array[i][j] = {model: GOAL, status: null};
+            } else if ( array[i][j] === "X" ) {
+                array[i][j] = {model: PRINT, status: null};
+            } else if ( array[i][j] === "M" ) {
+                array[i][j] = {model: FLOOR, status: MONSTER};
+            } else if ( array[i][j] === "P" ) {
+                array[i][j] = {model: FLOOR, status: PLAYER};
+                getPlayer(map1());
+            }
+        }
+    }
+  return array;
+}
+
+/** Load map from file **/
