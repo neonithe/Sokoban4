@@ -150,7 +150,7 @@ function updateCheckPlayer(i,j) {
         }
     }
     if ( inGame ) {
-        openModal("<p>YOU ARE A WINNER</p><br><p>Moves:"+countV+" || Timer: "+timeV+"</p>");
+        openModal("<p><b>YOU ARE A WINNER</b></p><br><p><b>Moves:"+countV+" || Timer: "+timeV+"</b></p>");
         endTable();
         gEnd = true;
     }
@@ -186,25 +186,28 @@ window.addEventListener("keydown", function(event) {
 
         /** WASD **/
         case 65: // Vänster
+            PLAYERIMG = MOVL;
             move(i, j-1);
             break;
         case 87: // Upp
+            PLAYERIMG = MOVU;
             move(i-1, j);
             break;
         case 68: // Höger
+            PLAYERIMG = MOVR;
             move(i, j+1);
             break;
         case 83: // Ner
+            PLAYERIMG = MOVD;
             move(i+1, j);
             break;
     }
 }, false);
 
-/** Modal window ********************************************/
+/** Modal window ************************************************************************************************/
+
 function closeModal() {
-    if ( gEnd ) {
-        startPage();
-    }
+    if ( gEnd ) startPage();
     modal.style.display = "none";
 }
 function openModal(message) {
@@ -216,9 +219,9 @@ function openModal(message) {
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
+        closeModal();
     }
 }
-
 
 
 /**  1. Create HTML, 2. Player position, 3. Maps, 4. Convert Map   ***********************************************/
@@ -314,17 +317,17 @@ function map2() {
 function mapStart() {
     var map = [];
 
-    map[0]   = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
-    map[1]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[2]   = ["W", "F", "W", "W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W", "W", "F", "W"];
-    map[3]   = ["W", "F", "W", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "W", "F", "W"];
-    map[4]   = ["W", "F", "W", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "W", "F", "W"];
-    map[5]   = ["W", "F", "W", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "W", "F", "W"];
-    map[6]   = ["W", "F", "W", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "W", "F", "W"];
-    map[7]   = ["W", "F", "W", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "W", "F", "W"];
-    map[8]   = ["W", "F", "W", "W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W", "W", "F", "W"];
-    map[9]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[10]  = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+    map[0]   = ["E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
+    map[1]   = ["E", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "W", "E"];
+    map[2]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[3]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[4]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[5]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[6]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[7]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[8]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
+    map[9]   = ["E", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "W", "E"];
+    map[10]  = ["E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
 
     return map;
 }

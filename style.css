@@ -49,9 +49,19 @@ table {
     height: 25px;
 }
 
+.toptable {
+    text-align: center;
+    vertical-align: middle;
+    border: 0px solid darkgray
+}
+.bottomtable {
+    text-align: center;
+    border: 0px solid darkgray
+}
+
 .cell       {width: 50px; height: 50px}
-.floor      {background: url("img/floor.png")}
-.wall       {background: url("img/wall.png")}
+.floor      {background: url("img/floor01.jpg")}
+.wall       {background: url("img/wall032.png")}
 .goal       {background: url("img/goal.png")}
 .print      {background-color: aqua}
 .empty      {background-color: black}
@@ -75,10 +85,11 @@ table {
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
+    color: black;
+    background-color: darkgray;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 2px solid black;
     width: 50%; /* Could be more or less, depending on screen size */
 }
 
