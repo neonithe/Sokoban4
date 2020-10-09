@@ -1,3 +1,4 @@
+"use strict";
 
 var WALL    = "W";
 var FLOOR   = "F";
@@ -18,11 +19,6 @@ var MOVU = "<img src='img/playerU.png' width='47' height='47'>";
 var gameMap = mapStart();
 var pPos = {i:0, j:0};
 
-// Timer
-var s = 0;
-var m = 0;
-var t = 0;
-
 // Get values for count, timer or if game is ended
 var countV = 0;
 var timeV = 0;
@@ -39,7 +35,10 @@ var gTimer  = document.getElementById("timeCount");
 /** HTML **/
 var printBoard = document.getElementById("gameMap");
 var modalHtml  = document.getElementById("modalHtml");
+var mapMenu    = document.getElementById("mapmenu");
 
+
+startPage();
 /** Start Page **/
 function startPage() {
     stop();
@@ -48,24 +47,19 @@ function startPage() {
     countV = 0;
     whatMap.innerHTML = "START PAGE";
     message.innerHTML = "Click one of the maps to start the game";
+    mapMenu.innerHTML = mapMenuHtml();
     gameMap = convertMap(mapStart());
     createBoard();
 }
-
-startPage();
 
 /** Game Menu **/
 function startGame(map) {
     switch ( map ) {
         case 1:
             startTable(map);
-            gameMap = convertMap(map1());
-            getPlayer(map1());
         break;
         case 2:
             startTable(map);
-            gameMap = convertMap(map2());
-            getPlayer(map2());
         break;
     }
 }
@@ -73,6 +67,8 @@ function startGame(map) {
 function startTable(nr) {
     stop();
     reset();
+    gameMap = convertMap(returnMap(nr));
+    getPlayer(returnMap(nr));
     count.innerHTML = 0;
     message.innerHTML = "Click one of the maps to start the game";
     whatMap.innerHTML = "Map "+nr;
@@ -83,26 +79,6 @@ function endTable() {
     pPos.i = 0;
     pPos.j = 0;
 
-}
-
-/** TIMER **/
-function runTime() {
-    s++;
-    if ( s >= 60 ) { s = 0; m++; }
-    timeV = (m > 9 ? m : "0" + m) + ":" + (s > 9 ? s : "0" + s);
-    gTimer.innerHTML = timeV;
-    timer();
-}
-function timer() {
-    t = setTimeout(runTime, 1000);
-}
-function stop() {
-    clearTimeout(t);
-}
-function reset() {
-    stop();
-    gTimer.textContent ="00:00";
-    s = 0; m = 0;
 }
 
 /** Move player with game rules **/
@@ -164,43 +140,17 @@ window.addEventListener("keydown", function(event) {
         event.preventDefault();
     }
     switch ( event.keyCode ) {
-        case 37: // Vänster
-            PLAYERIMG = MOVL;
-            move(i, j-1);
-            break;
-        case 38: // Upp
-            PLAYERIMG = MOVU;
-            move(i-1, j);
-            break;
-        case 39: // Höger
-            PLAYERIMG = MOVR;
-            move(i, j+1);
-            break;
-        case 40: // Ner
-            PLAYERIMG = MOVD;
-            move(i+1, j);
-            break;
-        case 32: // Ner
-            alert("Hello World");
-            break;
-
+        case 37: PLAYERIMG = MOVL; move(i, j-1); break;
+        case 38: PLAYERIMG = MOVU; move(i-1, j); break;
+        case 39: PLAYERIMG = MOVR; move(i, j+1); break;
+        case 40: PLAYERIMG = MOVD; move(i+1, j); break;
         /** WASD **/
-        case 65: // Vänster
-            PLAYERIMG = MOVL;
-            move(i, j-1);
-            break;
-        case 87: // Upp
-            PLAYERIMG = MOVU;
-            move(i-1, j);
-            break;
-        case 68: // Höger
-            PLAYERIMG = MOVR;
-            move(i, j+1);
-            break;
-        case 83: // Ner
-            PLAYERIMG = MOVD;
-            move(i+1, j);
-            break;
+        case 65: PLAYERIMG = MOVL; move(i, j-1); break;
+        case 87: PLAYERIMG = MOVU; move(i-1, j); break;
+        case 68: PLAYERIMG = MOVR; move(i, j+1); break;
+        case 83: PLAYERIMG = MOVD; move(i+1, j); break;
+        /** Space **/
+        case 32: alert("Hello World"); break;
     }
 }, false);
 
@@ -222,9 +172,6 @@ window.onclick = function(event) {
         closeModal();
     }
 }
-
-
-/**  1. Create HTML, 2. Player position, 3. Maps, 4. Convert Map   ***********************************************/
 
 /** 1. Create HTML table **/
 function createBoard() {
@@ -264,99 +211,3 @@ function createBoard() {
   return gameMap;
 }
 
-/** 2. Get position of player **/
-function getPlayer(array) {
-    for (var i = 0; i < array.length; i++ ) {
-        for (var j = 0; j < array[0].length; j++ ) {
-            if ( array[i][j] === "P" ) {
-                pPos.i = i; pPos.j = j;
-            }
-        }
-    }
-    createBoard();
-}
-
-/** 3. MAPS     M = Monster | P = PLayer | W = Wall | F = Floor | G = Goal      **/
-function map1() {
-
-    var map = [];
-
-    map[0]   = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
-    map[1]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[2]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[3]   = ["W", "F", "F", "F", "F", "F", "F", "W", "W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[4]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[5]   = ["W", "F", "F", "F", "F", "F", "F", "W", "G", "M", "P", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[6]   = ["W", "F", "F", "F", "F", "F", "F", "F", "G", "M", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[7]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[8]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[9]   = ["W", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "W"];
-    map[10]  = ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
-
-    return map;
-}
-
-function map2() {
-    var map = [];
-
-    map[0]   = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[1]   = ["E", "E", "E", "E", "W", "F", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[2]   = ["E", "E", "E", "E", "W", "M", "F", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[3]   = ["E", "E", "W", "W", "W", "F", "F", "M", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[4]   = ["E", "E", "W", "F", "F", "M", "F", "M", "F", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[5]   = ["W", "W", "W", "F", "W", "F", "W", "W", "F", "W", "E", "E", "W", "W", "W", "W", "W", "W", "E"];
-    map[6]   = ["W", "F", "F", "F", "W", "F", "W", "W", "F", "W", "W", "W", "W", "F", "F", "G", "G", "W", "E"];
-    map[7]   = ["W", "F", "M", "F", "F", "M", "F", "F", "F", "F", "F", "F", "F", "F", "F", "G", "G", "W", "E"];
-    map[8]   = ["W", "W", "W", "W", "W", "F", "W", "W", "W", "F", "W", "P", "W", "F", "F", "G", "G", "W", "E"];
-    map[9]   = ["E", "E", "E", "E", "W", "F", "F", "F", "F", "F", "W", "W", "W", "W", "W", "W", "W", "W", "E"];
-    map[10]  = ["E", "E", "E", "E", "W", "W", "W", "W", "W", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E"];
-
-    return map;
-}
-
-function mapStart() {
-    var map = [];
-
-    map[0]   = ["E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-    map[1]   = ["E", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "W", "E"];
-    map[2]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[3]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[4]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[5]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[6]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[7]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[8]   = ["E", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "E"];
-    map[9]   = ["E", "W", "W", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "W", "W", "E"];
-    map[10]  = ["E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"];
-
-    return map;
-}
-
-/** 4. Convert Map to object **/
-
-function convertMap(array) {
-
-    for ( i = 0; i < array.length; i++ ) {
-        for ( j = 0; j < array[0].length; j++ ) {
-            if ( array[i][j] === "W" ) {
-                array[i][j] = {model: WALL, status: null};
-            } else if ( array[i][j] === "F" ) {
-                array[i][j] = {model: FLOOR, status: null};
-            } else if ( array[i][j] === "E" ) {
-                array[i][j] = {model: EMPTY, status: null};
-            } else if ( array[i][j] === "G" ) {
-                array[i][j] = {model: GOAL, status: null};
-            } else if ( array[i][j] === "X" ) {
-                array[i][j] = {model: PRINT, status: null};
-            } else if ( array[i][j] === "M" ) {
-                array[i][j] = {model: FLOOR, status: MONSTER};
-            } else if ( array[i][j] === "P" ) {
-                array[i][j] = {model: FLOOR, status: PLAYER};
-            }
-        }
-    }
-  return array;
-}
-
-
-/** Load map from file **/
