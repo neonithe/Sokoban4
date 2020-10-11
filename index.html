@@ -33,22 +33,20 @@
                 <tr><td> <br> </td></tr>
                 <tr><td> <b>MENU</b> </td></tr>
                 <tr><td> <hr> </td></tr>
-
                 <tr><td> <button class="resetB" onclick="startPage()">RESET</button> </td></tr>
                 <tr><td> </td></tr>
-
             </table>
-            <table class="tableBottom" style="border: 0px solid darkgray">
-                <tr><td class="cell"></td></tr>
-                <tr><td class="cell"></td></tr>
-                <tr><td class="cell"></td></tr>
-                <tr><td class="cell"></td></tr>
-                <tr><td class="cell"></td></tr>
-                <tr><td> <hr> </td></tr>
-                <tr><td> <h3>Moves: <span id="count">0</span></h3> </td></tr>
-                <tr><td> <hr> </td></tr>
-                <tr><td><h3>Time:<span id="timeCount">00:00</span></h3>
-                <tr><td> <hr> </td></tr>
+            <table class="tableBottom" id="timercount" style="border: 0px solid darkgray" >
+                <tr><td class='cell'></td></tr>
+                <tr><td class='cell'></td></tr>
+                <tr><td class='cell'></td></tr>
+                <tr><td class='cell'></td></tr>
+                <tr><td class='cell'></td></tr>
+                <tr><td><hr></td></tr>
+                <tr><td><h3>Moves: <span id='count'>0</span></h3></td></tr>
+                <tr><td><hr></td></tr>
+                <tr><td><h3>Time:<span id='timeCount'>00:00</span></h3>
+                <tr><td><hr></td></tr>
             </table>
         </td>
         <!-- GAME -->
@@ -57,7 +55,9 @@
         </td>
         <!-- GAME -->
         <td style="width: 10%; text-align: center; border: 0px solid darkgray">
-            <table class="center" id="mapmenu"></table>
+            <table class="center" id="mapmenu">
+
+            </table>
         </td>
     </tr>
     <tr>
@@ -65,13 +65,14 @@
         <td class="bottomtable"></td>
         <td class="bottomtable">
         <h2 id="whatMap">MAP 1</h2>
-        <h2 id="message">Click one of the maps to start the game</h2></td>
+        <h2>Click one of the maps to start the game</h2></td>
         <td class="bottomtable"></td>
     </tr>
 </table>
 
 <!-- SCRIPT -->
-<script src="timer.js"></script>
+<script src="movement.js"></script>
+<script src="functions.js"></script>
 <script src="maps.js"></script>
 <script src="script.js"></script>
 <!-- SCRIPT -->
